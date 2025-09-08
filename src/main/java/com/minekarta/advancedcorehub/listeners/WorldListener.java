@@ -19,17 +19,8 @@ public class WorldListener implements Listener {
 
     @EventHandler
     public void onWorldChange(PlayerChangedWorldEvent event) {
-        Player player = event.getPlayer();
-        String newWorld = player.getWorld().getName();
-        String fromWorld = event.getFrom().getName();
-
-        boolean isEnteringHub = inventoryManager.isHubWorld(newWorld) && !inventoryManager.isHubWorld(fromWorld);
-
-        if (isEnteringHub) {
-            // TODO: Add inventory saving logic here in the future
-            inventoryManager.setupHubInventory(player);
-        }
-
-        // TODO: Add inventory restoring logic when leaving a hub world
+        // Hub-specific world change logic has been removed.
+        // Items are now given on join and are persistent across all worlds.
+        // Future inventory save/restore logic might be implemented here.
     }
 }

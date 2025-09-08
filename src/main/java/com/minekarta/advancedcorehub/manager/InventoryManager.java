@@ -10,7 +10,6 @@ import java.util.List;
 public class InventoryManager {
 
     private final AdvancedCoreHub plugin;
-    private List<String> hubWorlds;
     private boolean clearOnEnter;
 
     public InventoryManager(AdvancedCoreHub plugin) {
@@ -21,7 +20,6 @@ public class InventoryManager {
     public void loadConfig() {
         ConfigurationSection config = plugin.getConfig().getConfigurationSection("inventory_management");
         if (config != null) {
-            this.hubWorlds = config.getStringList("hub-worlds");
             this.clearOnEnter = config.getBoolean("clear-on-enter", true);
         }
     }
@@ -83,7 +81,4 @@ public class InventoryManager {
         }
     }
 
-    public boolean isHubWorld(String worldName) {
-        return hubWorlds != null && hubWorlds.contains(worldName);
-    }
 }

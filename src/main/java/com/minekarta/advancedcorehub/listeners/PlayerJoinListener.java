@@ -37,7 +37,7 @@ public class PlayerJoinListener implements Listener {
         // 3. Handle Hub Inventory
         if (player.getPersistentDataContainer().has(PersistentKeys.INVENTORY_CLEARED, PersistentDataType.BYTE)) {
             player.getPersistentDataContainer().remove(PersistentKeys.INVENTORY_CLEARED);
-        } else if (plugin.getInventoryManager().isHubWorld(player.getWorld().getName())) {
+        } else {
             plugin.getInventoryManager().setupHubInventory(player);
         }
 

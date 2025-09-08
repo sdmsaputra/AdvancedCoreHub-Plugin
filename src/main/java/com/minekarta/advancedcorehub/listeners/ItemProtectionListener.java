@@ -1,7 +1,6 @@
 package com.minekarta.advancedcorehub.listeners;
 
 import com.minekarta.advancedcorehub.AdvancedCoreHub;
-import com.minekarta.advancedcorehub.manager.InventoryManager;
 import com.minekarta.advancedcorehub.manager.ItemsManager;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -15,16 +14,13 @@ import org.bukkit.inventory.ItemStack;
 public class ItemProtectionListener implements Listener {
 
     private final ItemsManager itemsManager;
-    private final InventoryManager inventoryManager;
-
     public ItemProtectionListener(AdvancedCoreHub plugin) {
         this.itemsManager = plugin.getItemsManager();
-        this.inventoryManager = plugin.getInventoryManager();
     }
 
-    private boolean isProtectedInHub(Player player, ItemStack item) {
+    private boolean isProtected(ItemStack item) {
         if (item == null) return false;
-        return inventoryManager.isHubWorld(player.getWorld().getName()) && itemsManager.isProtected(item);
+        return itemsManager.isProtected(item);
     }
 
     @EventHandler
@@ -32,7 +28,7 @@ public class ItemProtectionListener implements Listener {
         if (!(event.getWhoClicked() instanceof Player)) return;
         Player player = (Player) event.getWhoClicked();
 
-        if (isProtectedInHub(player, event.getCurrentItem()) || isProtectedInHub(player, event.getCursor())) {
+        if (isProtected(event.getCurrentItem()) || isProtected(event.getCursor())) {
             // Allow players with a bypass permission to manage their inventory
             if (player.hasPermission("advancedcorehub.bypass.protection")) return;
             event.setCancelled(true);
@@ -44,7 +40,7 @@ public class ItemProtectionListener implements Listener {
         Player player = event.getPlayer();
         ItemStack item = event.getItemDrop().getItemStack();
 
-        if (isProtectedInHub(player, item)) {
+        if (isProtected(item)) {
             if (player.hasPermission("advancedcorehub.bypass.protection")) return;
             event.setCancelled(true);
         }
@@ -54,7 +50,7 @@ public class ItemProtectionListener implements Listener {
     public void onPlayerSwapHandItems(PlayerSwapHandItemsEvent event) {
         Player player = event.getPlayer();
 
-        if (isProtectedInHub(player, event.getMainHandItem()) || isProtectedInHub(player, event.getOffHandItem())) {
+        if (isProtected(event.getMainHandItem()) || isProtected(event.getOffHandItem())) {
             if (player.hasPermission("advancedcorehub.bypass.protection")) return;
             event.setCancelled(true);
         }
@@ -65,7 +61,7 @@ public class ItemProtectionListener implements Listener {
         Player player = event.getPlayer();
         ItemStack item = event.getItem();
 
-        if (isProtectedInHub(player, item)) {
+        if (isProtected(item)) {
             if (player.hasPermission("advancedcorehub.bypass.protection")) return;
             event.setCancelled(true);
         }
